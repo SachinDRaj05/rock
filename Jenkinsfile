@@ -1,35 +1,29 @@
-pipeline {
-    agent any
-
-    stages {
-        stage('Checkout') {
+     stage('Build') {
             steps {
-                checkout scm
-            }
-        }
-
-        stage('Build') {
-            steps {
-                echo 'Building Python application'
-                bat 'python -m py_compile app.py'
+                echo 'Building java application'
+                bat 'java -m py_compile test.java'
+                echo 'Building Java application'
+                bat 'javac test.java'
             }
         }
 
         stage('Test') {
             steps {
                 echo 'Executing automated tests'
-                bat 'python -m unittest app'
+                bat 'java -m unittest app'
+                echo 'Testing Java application'
             }
         }
 
         stage('Run Application') {
             steps {
-                bat 'python app.py'
+                bat 'java test.java'
+                echo 'Running Java application'
+                bat 'java test'
             }
         }
     }
-
-    post {
+ pipeline {
         success {
             echo 'CI pipeline completed successfully'
         }
