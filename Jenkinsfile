@@ -10,21 +10,21 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo 'Building Java application'
-                bat 'javac test.java'
+                echo 'Building Python application'
+                bat 'python -m py_compile app.py'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Testing Java application'
+                echo 'Executing automated tests'
+                bat 'python -m unittest app'
             }
         }
 
         stage('Run Application') {
             steps {
-                echo 'Running Java application'
-                bat 'java test'
+                bat 'python app.py'
             }
         }
     }
@@ -33,9 +33,9 @@ pipeline {
         success {
             echo 'CI pipeline completed successfully'
         }
+
         failure {
             echo 'CI pipeline failed'
         }
     }
 }
-
